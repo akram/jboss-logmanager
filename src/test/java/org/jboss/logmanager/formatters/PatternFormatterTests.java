@@ -165,6 +165,11 @@ public class PatternFormatterTests {
         final String msg = "test message";
         formatter = new PatternFormatter("%c %-5.-7m");
         Assert.assertEquals(CATEGORY + " message", formatter.format(createLogRecord(msg)));
+    
+        formatter = new PatternFormatter("%j");
+	final ExtLogRecord json = createLogRecord("{ \"test\" : \"value\" }");
+        Assert.assertEquals("{ \\\"test\\\" : \\\"value\\\" }", formatter.format(json));
+
     }
 
     @Test

@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
+
 /**
  * A parser which can translate a log4j-style format string into a series of {@code FormatStep} instances.
  */
@@ -117,6 +118,10 @@ public final class FormatStringParser {
                     case 'i': {
                         stepList.add(Formatters.processIdFormatStep(leftJustify, minimumWidth, truncateBeginning, maximumWidth));
                     }
+                    case 'j': {
+                        stepList.add(Formatters.jsonMessageFormatStep(leftJustify, minimumWidth, truncateBeginning, maximumWidth));
+                        break;
+                    }
                     case 'k': {
                         stepList.add(Formatters.resourceKeyFormatStep(leftJustify, minimumWidth, truncateBeginning, maximumWidth));
                         break;
@@ -205,4 +210,8 @@ public final class FormatStringParser {
         }
         return stepList.toArray(new FormatStep[stepList.size()]);
     }
+ 
+
+
 }
+

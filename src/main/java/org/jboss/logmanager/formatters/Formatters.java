@@ -617,6 +617,32 @@ public final class Formatters {
         };
     }
 
+
+    /**
+     * Create a format step which emits the formatted log message text with the given justification rules.
+     *
+     * @param leftJustify {@code true} to left justify, {@code false} to right justify
+     * @param minimumWidth the minimum field width, or 0 for none
+     * @param truncateBeginning {@code true} to truncate the beginning, otherwise {@code false} to truncate the end
+     * @param maximumWidth the maximum field width (must be greater than {@code minimumFieldWidth}), or 0 for none
+     * @return the format step
+     */
+    public static FormatStep jsonMessageFormatStep(final boolean leftJustify, final int minimumWidth, final boolean truncateBeginning, final int maximumWidth) {
+        return new JustifyingFormatStep(leftJustify, minimumWidth, truncateBeginning, maximumWidth) {
+            public void renderRaw(final StringBuilder builder, final ExtLogRecord record) {
+                builder.append(record.getFormattedMessage().replaceAll("\\\"","\\\\\""));
+                final Throwable t = record.getThrown();
+                if (t != null) {
+                    builder.append(": ");
+                    t.printStackTrace(new PrintWriter(new StringBuilderWriter(builder)));
+                }
+            }
+        };
+    }
+
+
+
+
     /**
      * Create a format step which emits the formatted log message text (simple version, no exception traces) with the given justification rules.
      *
